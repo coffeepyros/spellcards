@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@1..1000&family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #ccc;
+    display: flex;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    font-size: 8pt;
+    /*font-family: "Sofia Sans Semi Condensed", sans-serif;*/
+    font-family: "Sofia Sans Condensed", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+header,
+footer {
+    font-weight: 700;
+}
+#layout {
+    width: 21cm;
+    height: 29.7cm;
+    overflow: hidden;
+    padding: 0.5cm; /* print safe zone */
+    background-color: #fff;
+    /*transform: scale(0.67);*/
+    display: grid;
+    align-content: start;
+    grid-template-columns: repeat(3, 6.3cm);
+    grid-template-rows: auto auto auto;
+    gap: 0rem;
+}
+.card {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    width: 6.3cm;
+    height: 8.8cm;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.5rem;
+}
+.level {
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    /*border-radius: 50%;*/
+    text-align: center;
+    align-content: center;
+    font-weight: bold;
+    background-color: #ccc;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+h2 {
+    /*TODO: dynamic font size for longer Spell names */
+    font-size: 14pt;
+    text-align: center;
+}
+header {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    border-top: 0.25pt solid #ccc;
+    border-bottom: 0.25pt solid #ccc;
+    padding: 0.25rem 0;
+}
+header h3 {
+    font-size: 7pt;
+    text-transform: uppercase;
+}
+header p {
+    font-size: 10pt;
+}
+main {
+    font-size: 9pt;
+}
+footer {
+    display: flex;
+    justify-content: space-between;
+}
