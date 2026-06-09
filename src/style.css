@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,100..900&family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #ccc;
+    display: flex;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    font-size: 8pt;
+    font-family: "Sofia Sans Extra Condensed", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+header,
+footer {
+    font-weight: 700;
+}
+.page {
+    overflow: hidden;
+    padding: 0.5cm; /* print safe zone */
+    background-color: #fff;
+    /*transform: scale(0.67);*/
+    display: grid;
+    align-content: start;
+    gap: 0rem;
+    margin-bottom: 0.1cm;
+    width: 21cm;
+    height: 29.7cm;
+}
+.page-magic {
+    grid-template-columns: repeat(3, 6.3cm);
+    grid-template-rows: auto auto auto;
+}
+.page-maxsize {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+.card {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+}
+.card-magic {
+    width: 6.3cm;
+    height: 8.8cm;
+}
+.concentration,
+.ritual,
+.level {
+    position: absolute;
+    top: 0.33rem;
+    width: 1.16rem;
+    height: 1.16rem;
+    text-align: center;
+    align-content: center;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #fff;
+}
+.level {
+    background-color: #333;
+}
+.concentration,
+.ritual {
+    left: 0.33rem;
+    padding-top: 0.1rem;
+    background-color: rgba(0, 0, 0, 0.33);
+}
+.concentration {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.ritual {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+.ritConc {
+    left: 1.5rem;
+}
+.level {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    right: 0.33rem;
+}
+h2 {
+    /*TODO: dynamic font size for longer Spell names */
+    font-size: 15pt;
+    line-height: 1;
+    text-align: center;
+    /*font-family: "Sofia Sans Condensed", sans-serif;*/
+    font-family: "Imbue", serif;
+    transform: translateY(-0.25rem);
+}
+header {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    border-top: 0.25pt solid #ccc;
+    border-bottom: 0.25pt solid #ccc;
+    /*margin-top: 0.25em;*/
+    padding-top: 0.25em;
+    padding-bottom: 0.05em;
+}
+header h3 {
+    /*font-family: "Imbue", serif;*/
+    font-size: 7.5pt;
+    text-transform: uppercase;
+}
+header p {
+    font-size: 10pt;
+}
+main {
+    margin-top: 0.16em;
+    font-size: 8.33pt;
+    line-height: 1.05;
+}
+main br {
+    margin-bottom: 0.2em;
+}
+footer {
+    display: flex;
+    justify-content: space-between;
+}
+.page,
+.page-break {
+    break-after: page;
+}

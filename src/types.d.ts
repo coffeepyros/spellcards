@@ -1,0 +1,20 @@
+export type Spelldata = {
+  spell_name: string | null;
+  level: number | null;
+  range: string | null;
+  components: string | null;
+  duration: string | null;
+  concentration: boolean | null;
+  casting_time: string | null;
+  ritual: boolean | null;
+  description: string | null;
+  material: string | null;
+  school: string | null;
+  classes: string | null;
+  tags?: string | null;
+  source_book?: string | null;
+  srd?: boolean | null;
+  id: string | null;
+  card_type?: string | null;
+  custom_data?: boolean | null;
+};

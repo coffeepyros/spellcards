@@ -1,4 +1,6 @@
-export const data = [
+import type { Spelldata } from "./types";
+
+export const data: Spelldata[] = [
   {
     spell_name: "Acid Splash",
     level: 0,
