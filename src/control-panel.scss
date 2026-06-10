@@ -1,0 +1,41 @@
+#control-panel {
+    background-color: #aaa;
+    position: absolute;
+    border: 1px solid #999;
+    border-radius: 0.5rem;
+    top: 0;
+    left: 21cm;
+    margin: 0.5rem;
+    padding: 0.5rem;
+
+    label {
+        font-size: 14pt;
+        font-weight: bold;
+    }
+
+    select {
+        margin-top: 0.25rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    button {
+        font-size: 10pt;
+        font-weight: bold;
+        padding: 0.25rem 1rem;
+        border: 1px solid #fff;
+        border-radius: 1rem;
+        margin-top: 0.5rem;
+        background-color: #00f3;
+        color: white;
+        text-shadow: 1px 1px 0 black;
+    }
+    button:hover {
+        cursor: pointer;
+        background-color: #00f6;
+    }
+}
+@media print {
+    .control {
+        display: none;
+    }
+}
