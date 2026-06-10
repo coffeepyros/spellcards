@@ -6,6 +6,9 @@ Creates A4 print sheets with dynamic card sizes
  * Magic: 6.3 x 8.8 cm (3x3 Grid)
  * Tarot: 7 x 12 cm (2x2 Grid)
 
+## Screenshot
+ ![Screenshot of Spell Generator](./screenshot.png)
+
 ## Technology
  * Vanilla DOM JS for generation (React would be overkill)
  * Vite for development
