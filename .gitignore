@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Project based
-src/customData.ts
+# src/customData.ts
