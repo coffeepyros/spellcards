@@ -32,8 +32,14 @@ const spells: Spelldata[] = data.filter(
     spell.level >= minLevel &&
     spell.level <= maxLevel,
 );
-// SORT SPELLS BY LEVEL - CANTRIPS FIRST
-spells.sort((a, b) => a.level - b.level);
+// SORT SPELLS BY LEVEL - CANTRIPS FIRST, THEN SPELL NAME
+spells.sort((a, b) => {
+  if (a.level < b.level) return -1;
+  if (a.level > b.level) return 1;
+  if (a.spell_name < b.spell_name) return -1;
+  if (a.spell_name > b.spell_name) return 1;
+  return 0;
+});
 // console.log(spells.length);
 
 // DISPLAY TOOLS
