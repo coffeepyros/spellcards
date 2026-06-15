@@ -11,6 +11,7 @@ Creates A4 print sheets with dynamic card sizes
 
 ## Technology
  * Vanilla DOM JS for generation (React would be overkill)
+ * Layouting via my own (S)CSS
  * Vite for development
  * print via browser print function (switch off borders/etc.)
 

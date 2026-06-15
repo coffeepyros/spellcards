@@ -1,8 +1,8 @@
 // DATA
 import type { Spelldata } from "./types";
-import { mdTransform } from "./utils"; // my own markdown -> html
 import { data as srdData } from "./data"; // SRD spells
 import { customData } from "./customData"; // custom spells
+import { mdTransform } from "./utils"; // my own markdown -> html
 const data = srdData.concat(customData); // all spells
 import "./style.css";
 import "./control-panel.scss";
