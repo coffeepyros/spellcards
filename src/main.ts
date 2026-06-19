@@ -34,6 +34,13 @@ const spells: Spelldata[] = data.filter(
 );
 // SORT SPELLS BY LEVEL - CANTRIPS FIRST, THEN SPELL NAME
 spells.sort((a, b) => {
+  if (
+    a.level == null ||
+    b.level == null ||
+    a.spell_name == null ||
+    b.spell_name == null
+  )
+    return 0;
   if (a.level < b.level) return -1;
   if (a.level > b.level) return 1;
   if (a.spell_name < b.spell_name) return -1;
@@ -139,16 +146,83 @@ function render() {
 }
 
 // CONTROL PANEL
+const classes: string[] = [
+  "Artificer",
+  "Barbarian",
+  "Bard",
+  "Cleric",
+  "Druid",
+  "Fighter",
+  "Monk",
+  "Paladin",
+  "Ranger",
+  "Rogue",
+  "Sorcerer",
+  "Warlock",
+  "Wizard",
+];
+
 const controlElement: HTMLElement = document.createElement("section");
 controlElement.id = "control-panel";
-controlElement.innerHTML = `
-  <label for="card-size">Card Size</label><br>
-  <select id="card-size">
-  <option value="max">Maximum Size (A4)</option>
+
+const labelCardSize: HTMLLabelElement = document.createElement("label");
+labelCardSize.innerText = "Card Sizes";
+labelCardSize.htmlFor = "card-size";
+
+const selectCardSize: HTMLSelectElement = document.createElement("select");
+selectCardSize.id = "card-size";
+selectCardSize.innerHTML = `<option value="max">Maximum Size (A4)</option>
   <option value="magic">Magic Card</option>
-  <option value="tarot">Tarot Card</option>
-  </select><br>
-  <button id="generate_pdf">Generate PDF</button>`;
+  <option value="tarot">Tarot Card</option>`;
+
+const labelClass: HTMLLabelElement = document.createElement("label");
+labelClass.innerText = "Class";
+labelClass.htmlFor = "filter-class";
+
+const selectFilterClass: HTMLSelectElement = document.createElement("select");
+selectFilterClass.id = "filter-class";
+
+const labelLevel: HTMLLabelElement = document.createElement("label");
+labelLevel.innerText = "Level";
+labelLevel.htmlFor = "filter-level-start";
+
+const selectFilterLevelStart: HTMLSelectElement =
+  document.createElement("select");
+const selectFilterLevelEnd: HTMLSelectElement =
+  document.createElement("select");
+
+controlElement.append(
+  labelCardSize,
+  selectCardSize,
+  labelClass,
+  selectFilterClass,
+  labelLevel,
+  selectFilterLevelStart,
+  selectFilterLevelEnd,
+);
+
+// controlElement.innerHTML = `
+//   <label for="card-size">Card Size</label><br>
+//   <select id="card-size">
+//     <option value="max">Maximum Size (A4)</option>
+//     <option value="magic">Magic Card</option>
+//     <option value="tarot">Tarot Card</option>
+//   </select><br>
+//   <button id="generate_pdf">Generate PDF</button><br><br>
+
+//   <label for="class">Class</label><br>
+//   <select id="class">
+//   `;
+// classes.forEach(
+//   (charClass: string) =>
+//     (controlElement.innerHTML += `<option value="${charClass.toLowerCase()}">${charClass}</option>`),
+// );
+// controlElement.innerHTML += `</select><br><br>
+//   <label for="level">Level</label><br>
+//   <select id="level">
+//     <option value=""></option>
+//   </select>
+
 if (app) app.append(controlElement);
 
 const sizeSelect = document.querySelector("#card-size");
