@@ -18,35 +18,12 @@ const app = document.querySelector<HTMLDivElement>("#app");
 let cardSize: string = "max"; // "max" | "magic" | "tarot"
 
 // FILTER
-const classFilter: string = "Wizard"; // my personal character class
+let classFilter: string = "Wizard"; // my personal character class
 const minLevel: number = 0; // cantrips
 const maxLevel: number = 1; // max level ... for now
 
 // console.log(data.length);
 
-const spells: Spelldata[] = data.filter(
-  (spell) =>
-    spell.classes != null &&
-    spell.classes.includes(classFilter) &&
-    spell.level != null &&
-    spell.level >= minLevel &&
-    spell.level <= maxLevel,
-);
-// SORT SPELLS BY LEVEL - CANTRIPS FIRST, THEN SPELL NAME
-spells.sort((a, b) => {
-  if (
-    a.level == null ||
-    b.level == null ||
-    a.spell_name == null ||
-    b.spell_name == null
-  )
-    return 0;
-  if (a.level < b.level) return -1;
-  if (a.level > b.level) return 1;
-  if (a.spell_name < b.spell_name) return -1;
-  if (a.spell_name > b.spell_name) return 1;
-  return 0;
-});
 // console.log(spells.length);
 
 // DISPLAY TOOLS
@@ -85,16 +62,40 @@ function render() {
   const pagesToBeRemoved = document.querySelectorAll(".page");
   pagesToBeRemoved.forEach((page) => page.remove());
 
+  const filteredSpells: Spelldata[] = data.filter(
+    (spell) =>
+      spell.classes != null &&
+      spell.classes.includes(classFilter) &&
+      spell.level != null &&
+      spell.level >= minLevel &&
+      spell.level <= maxLevel,
+  );
+  // SORT SPELLS BY LEVEL - CANTRIPS FIRST, THEN SPELL NAME
+  filteredSpells.sort((a, b) => {
+    if (
+      a.level == null ||
+      b.level == null ||
+      a.spell_name == null ||
+      b.spell_name == null
+    )
+      return 0;
+    if (a.level < b.level) return -1;
+    if (a.level > b.level) return 1;
+    if (a.spell_name < b.spell_name) return -1;
+    if (a.spell_name > b.spell_name) return 1;
+    return 0;
+  });
+
   // Pagination
   for (
     let page: number = 1;
-    page <= Math.ceil(spells.length / cardsPerPage);
+    page <= Math.ceil(filteredSpells.length / cardsPerPage);
     page++
   ) {
     const pageElement: HTMLElement = document.createElement("article");
     pageElement.classList.add("page", cardSizePageCss);
 
-    const displaySpells = spells.slice(
+    const displaySpells = filteredSpells.slice(
       (page - 1) * cardsPerPage,
       page * cardsPerPage,
     );
@@ -147,6 +148,7 @@ function render() {
 
 // CONTROL PANEL
 const classes: string[] = [
+  "",
   "Artificer",
   "Barbarian",
   "Bard",
@@ -181,6 +183,13 @@ labelClass.htmlFor = "filter-class";
 
 const selectFilterClass: HTMLSelectElement = document.createElement("select");
 selectFilterClass.id = "filter-class";
+classes.forEach((charClass) => {
+  selectFilterClass.innerHTML += `<option value="${charClass.toLowerCase()}">${charClass}</option>`;
+});
+selectFilterClass.addEventListener("change", (e) => {
+  classFilter = e.currentTarget.value;
+  render();
+});
 
 const labelLevel: HTMLLabelElement = document.createElement("label");
 labelLevel.innerText = "Level";

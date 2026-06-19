@@ -1,0 +1,67 @@
+[
+  {
+    "spell_name": "Acid Arrow",
+    "level": 2,
+    "school": "Evocation",
+    "classes": "Wizar",
+    "casting_time": "Action",
+    "range": "90 feet",
+    "components": "V, S, M",
+    "material": "powdered rhubarb leaf",
+    "duration": "Instantaneous",
+    "description": "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 Acid damage and 2d4 Acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage only.",
+    "tags": "damage, acid"
+  },
+  {
+    "spell_name": "Acid Splash",
+    "level": 0,
+    "school": "Evocation",
+    "classes": "Sorcerer, Wizar",
+    "casting_time": "Action",
+    "range": "60 feet",
+    "components": "V, S",
+    "material": null,
+    "duration": "Instantaneous",
+    "description": "You create an acidic bubble at a point within range, where it explodes in a 5-foot-radius Sphere. Each creature in that Sphere must succeed on a Dexterity saving throw or take 1d6 Acid damage.",
+    "tags": "damage, acid"
+  },
+  {
+    "spell_name": "Aid",
+    "level": 2,
+    "school": "Abjuration",
+    "classes": "Bard, Cleric, Druid, Paladin, Range",
+    "casting_time": "Action",
+    "range": "30 feet",
+    "components": "V, S, M",
+    "material": "a strip of white cloth",
+    "duration": "8 hours",
+    "description": "Choose up to three creatures within range. Each target's Hit Point maximum and current Hit Points increase by 5 for the duration.",
+    "tags": ""
+  },
+  {
+    "spell_name": "Alarm",
+    "level": 1,
+    "school": "Abjuration",
+    "classes": "Ranger, Wizar",
+    "casting_time": "1 minute or Ritual",
+    "range": "30 feet",
+    "components": "V, S, M",
+    "material": "a bell and silver wire",
+    "duration": "8 hours",
+    "description": "You set an alarm against intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot Cube. Until the spell ends, an alarm alerts you whenever a creature touches or enters the warded area. When you cast the spell, you can designate creatures that won't set off the alarm. You also choose whether the alarm is audible or mental:",
+    "tags": ""
+  },
+  {
+    "spell_name": "Alter Self",
+    "level": 2,
+    "school": "Transmutation",
+    "classes": "Sorcerer, Wizar",
+    "casting_time": "Action",
+    "range": "Self",
+    "components": "V, S",
+    "material": null,
+    "duration": "Concentration, up to 1 hour",
+    "description": "You alter your physical form. Choose one of the following options. Its effects last for the duration, during which you can take a Magic action to replace the option you chose with a different one.",
+    "tags": ""
+  }
+]
