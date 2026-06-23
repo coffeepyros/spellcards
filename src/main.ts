@@ -59,7 +59,7 @@ function render() {
   }
 
   // CLEAR CONTENT FOR RE-RENDER
-  const pagesToBeRemoved = document.querySelectorAll(".page");
+  const pagesToBeRemoved = document.querySelectorAll<HTMLDivElement>(".page");
   pagesToBeRemoved.forEach((page) => page.remove());
 
   const filteredSpells: Spelldata[] = data.filter(
@@ -95,7 +95,7 @@ function render() {
     const pageElement: HTMLElement = document.createElement("article");
     pageElement.classList.add("page", cardSizePageCss);
 
-    const displaySpells = filteredSpells.slice(
+    const displaySpells: Spelldata[] = filteredSpells.slice(
       (page - 1) * cardsPerPage,
       page * cardsPerPage,
     );
@@ -104,8 +104,9 @@ function render() {
       const spellElement: HTMLElement = document.createElement("section");
       spellElement.classList.add("card", cardSizeCardCss);
 
-      const ritualOnly = !spell.concentration && spell.ritual;
-      const ritualAndConcentration = spell.concentration && spell.ritual;
+      const ritualOnly: boolean | null = !spell.concentration && spell.ritual;
+      const ritualAndConcentration: boolean | null =
+        spell.concentration && spell.ritual;
 
       spellElement.innerHTML = `
       ${spell.concentration ? '<span class="concentration">C</span>' : ""}
@@ -187,8 +188,8 @@ classes.forEach((charClass) => {
   selectFilterClass.innerHTML += `<option value="${charClass.toLowerCase()}">${charClass}</option>`;
 });
 selectFilterClass.addEventListener("change", (e) => {
-  if (e.currentTarget)
-    classFilter = (e.currentTarget as HTMLSelectElement).value;
+  const target = e.currentTarget as HTMLSelectElement;
+  if (target) classFilter = target.value;
   render();
 });
 
@@ -211,31 +212,9 @@ controlElement.append(
   selectFilterLevelEnd,
 );
 
-// controlElement.innerHTML = `
-//   <label for="card-size">Card Size</label><br>
-//   <select id="card-size">
-//     <option value="max">Maximum Size (A4)</option>
-//     <option value="magic">Magic Card</option>
-//     <option value="tarot">Tarot Card</option>
-//   </select><br>
-//   <button id="generate_pdf">Generate PDF</button><br><br>
-
-//   <label for="class">Class</label><br>
-//   <select id="class">
-//   `;
-// classes.forEach(
-//   (charClass: string) =>
-//     (controlElement.innerHTML += `<option value="${charClass.toLowerCase()}">${charClass}</option>`),
-// );
-// controlElement.innerHTML += `</select><br><br>
-//   <label for="level">Level</label><br>
-//   <select id="level">
-//     <option value=""></option>
-//   </select>
-
 if (app) app.append(controlElement);
 
-const sizeSelect = document.querySelector("#card-size");
+const sizeSelect = document.querySelector<HTMLSelectElement>("#card-size");
 sizeSelect &&
   sizeSelect.addEventListener("change", (e) => {
     const target = e.currentTarget as HTMLSelectElement;
