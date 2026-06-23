@@ -18,3 +18,11 @@ export type Spelldata = {
   card_type?: string | null;
   custom_data?: boolean | null;
 };
+
+export type CardSizeCss = {
+  cardSizePageCss: string;
+  cardSizeCardCss: string;
+  cardsPerPage: number;
+};
+
+export type FilterLevel = { min: number; max: number };
