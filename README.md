@@ -17,3 +17,4 @@ Creates A4 print sheets with dynamic card sizes
 
 ## TODO
  * generating PDF from HTML, as alternative to browser print function
+ * migrate from vanilla javascript to React, now that more filter functionality is coming

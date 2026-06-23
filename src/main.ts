@@ -187,7 +187,8 @@ classes.forEach((charClass) => {
   selectFilterClass.innerHTML += `<option value="${charClass.toLowerCase()}">${charClass}</option>`;
 });
 selectFilterClass.addEventListener("change", (e) => {
-  classFilter = e.currentTarget.value;
+  if (e.currentTarget)
+    classFilter = (e.currentTarget as HTMLSelectElement).value;
   render();
 });
 
