@@ -35,6 +35,13 @@
         background-color: #00f6;
     }
 }
+.error {
+    font-size: 14pt;
+    font-weight: bold;
+    background-color: #ff8f8f;
+    color: #333;
+    padding: 0.25em;
+}
 @media print {
     #control-panel {
         display: none;

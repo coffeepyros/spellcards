@@ -1,5 +1,22 @@
 import type { Spelldata } from "./types";
 
+export const charClasses: string[] = [
+  "",
+  "Artificer",
+  "Barbarian",
+  "Bard",
+  "Cleric",
+  "Druid",
+  "Fighter",
+  "Monk",
+  "Paladin",
+  "Ranger",
+  "Rogue",
+  "Sorcerer",
+  "Warlock",
+  "Wizard",
+];
+
 export const customData: Spelldata[] = [
   {
     spell_name: "Notes",

@@ -1,44 +1,34 @@
 // DATA
 import type { CardSizeCss, FilterLevel } from "../types";
+import { charClasses } from "../customData";
 import "./ControlPanel.scss";
 
 type Props = {
-  // cardSize: string;
-  setCardSize: (p: string) => void;
-  setCardSizeCssClass: (p: object) => void;
-  setClassFilter: (p: string) => void;
-  setLevelFilter: (p: object) => void;
+  cardSize: string;
+  setCardSize: (state: string) => void;
+  setCardSizeCssClass: (state: CardSizeCss) => void;
+  classFilter: string;
+  setClassFilter: (state: string) => void;
+  levelFilter: FilterLevel;
+  setLevelFilter: (state: FilterLevel) => void;
 };
 
 const ControlPanel = ({
   setCardSize,
   setCardSizeCssClass,
+  classFilter,
   setClassFilter,
+  levelFilter,
   setLevelFilter,
 }: Props) => {
   // CONTROL PANEL
-  const charClasses: string[] = [
-    "",
-    "Artificer",
-    "Barbarian",
-    "Bard",
-    "Cleric",
-    "Druid",
-    "Fighter",
-    "Monk",
-    "Paladin",
-    "Ranger",
-    "Rogue",
-    "Sorcerer",
-    "Warlock",
-    "Wizard",
-  ];
 
-  function changeCardSizeHandler(event: Event) {
-    const target: HTMLSelectElement = event.currentTarget;
-    console.log("Card size changed!", target.value);
+  function changeCardSizeHandler(event: React.ChangeEvent) {
+    const changedSize: string = (event.currentTarget as HTMLSelectElement)
+      .value;
+    console.log("Card size changed!", changedSize);
 
-    switch (target.value) {
+    switch (changedSize) {
       case "max":
         setCardSize("max");
         setCardSizeCssClass({
@@ -66,15 +56,74 @@ const ControlPanel = ({
     }
   }
 
+  function filterClassHandler(event: React.ChangeEvent) {
+    const selectedClass: string = (event.currentTarget as HTMLSelectElement)
+      .value;
+    setClassFilter(selectedClass);
+  }
+
+  function filterLevelHandler(event: React.ChangeEvent) {
+    const target = event.currentTarget as HTMLSelectElement;
+    const selectedLevel: string = target.value;
+    const minOrMax: string = target.name;
+    setLevelFilter({ ...levelFilter, [minOrMax]: Number(selectedLevel) });
+  }
+
+  const levelOptions = ["", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+    (num: number | string) => (
+      <option key={num} value={num}>
+        {num}
+      </option>
+    ),
+  );
+
   return (
     <section id="control-panel">
-      <label htmlFor="">Card Size</label>
-      <select onChange={changeCardSizeHandler}>
-        {charClasses.map((charClass) => (
-          <option value={charClass.toLocaleLowerCase()}>{charClass}</option>
-        ))}
-        <option>Buh</option>
+      <label htmlFor="card-size">Card Size</label>
+      <select id="card-size" onChange={changeCardSizeHandler}>
+        <option value="max">Maximum Size (A4)</option>
+        <option value="magic">Magic Card</option>
+        <option value="tarot">Tarot Card</option>
       </select>
+
+      <label htmlFor="filter-class">Class</label>
+      <select
+        id="filter-class"
+        defaultValue={classFilter}
+        onChange={filterClassHandler}
+      >
+        {charClasses.map((charClass) => (
+          <option
+            key={"option-" + charClass}
+            value={charClass.toLocaleLowerCase()}
+          >
+            {charClass}
+          </option>
+        ))}
+      </select>
+
+      <label htmlFor="filter-level-start">Level</label>
+      <select
+        id="filter-level-start"
+        name="min"
+        defaultValue={levelFilter.min}
+        onChange={filterLevelHandler}
+      >
+        {levelOptions}
+      </select>
+      <select
+        id="filter-level-end"
+        name="max"
+        defaultValue={levelFilter.max}
+        onChange={filterLevelHandler}
+      >
+        {levelOptions}
+      </select>
+      {levelFilter.min > levelFilter.max ? (
+        <p className="error">
+          Error! {levelFilter.min + " > " + levelFilter.max}
+        </p>
+      ) : null}
     </section>
   );
 };

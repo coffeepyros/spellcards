@@ -215,12 +215,13 @@ controlElement.append(
 if (app) app.append(controlElement);
 
 const sizeSelect = document.querySelector<HTMLSelectElement>("#card-size");
-sizeSelect &&
+if (sizeSelect) {
   sizeSelect.addEventListener("change", (e) => {
     const target = e.currentTarget as HTMLSelectElement;
     if (e.currentTarget) cardSize = target.value;
     render();
   });
+}
 
 // INIT
 render();
