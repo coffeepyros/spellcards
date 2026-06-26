@@ -20,26 +20,17 @@ const App = () => {
     max: 1,
   });
   const data: Spelldata[] = srdData.concat(customData); // all spells
-  const [spellsToDisplay, setSpellsToDisplay] = useState<Spelldata[]>(data);
 
-  const numOfPages: number = Math.ceil(
-    spellsToDisplay.length / cardSizeCssClass.cardsPerPage,
-  );
-
-  console.log(numOfPages);
-
-  function filterSpells() {
-    console.log("Filtering spells...");
-    const filteredSpells: Spelldata[] = data.filter(
+  const filteredSpells: Spelldata[] = data
+    .filter(
       (spell) =>
         spell.classes != null &&
-        spell.classes.includes(classFilter) &&
+        spell.classes.toLocaleLowerCase().includes(classFilter) &&
         spell.level != null &&
         spell.level >= levelFilter.min &&
         spell.level <= levelFilter.max,
-    );
-    // SORT SPELLS BY LEVEL - CANTRIPS FIRST, THEN SPELL NAME
-    filteredSpells.sort((a, b) => {
+    )
+    .sort((a, b) => {
       if (
         a.level == null ||
         b.level == null ||
@@ -53,22 +44,78 @@ const App = () => {
       if (a.spell_name > b.spell_name) return 1;
       return 0;
     });
-    setSpellsToDisplay(filteredSpells);
-  }
+
+  const numOfPages: number = Math.ceil(
+    filteredSpells.length / cardSizeCssClass.cardsPerPage,
+  );
 
   return (
     <>
       {cardSize}
       {numOfPages}
-      <ControlPanel
-        cardSize={cardSize}
-        setCardSize={setCardSize}
-        setCardSizeCssClass={setCardSizeCssClass}
-        classFilter={classFilter}
-        setClassFilter={setClassFilter}
-        levelFilter={levelFilter}
-        setLevelFilter={setLevelFilter}
-      />
+      <article className={"page" + ` ${cardSizeCssClass.cardSizePageCss}`}>
+        {filteredSpells.map((spell) => {
+          const ritualOnly: boolean | null =
+            !spell.concentration && spell.ritual;
+          const ritualAndConcentration: boolean | null =
+            spell.concentration && spell.ritual;
+
+          return (
+            <section
+              className={"card" + ` ${cardSizeCssClass.cardSizeCardCss}`}
+            >
+              {spell.concentration && <span className="concentration">C</span>}
+              {ritualOnly && <span className="ritual">R</span>}
+              {ritualAndConcentration && (
+                <span className="ritual ritConc">R</span>
+              )}
+              <h2
+                className="name"
+                style={
+                  spell.spell_name && spell.spell_name.length > 24
+                    ? { transform: "scale(0.80) translateY(-25%)" }
+                    : {}
+                }
+              >
+                {spell.spell_name}
+              </h2>
+              <span className="level">{spell.level}</span>
+              <header>
+                <section>
+                  <h3>Range</h3>
+                  <p>{spell.range}</p>
+                </section>
+                <section>
+                  <h3>Components</h3>
+                  <p>{spell.components}</p>
+                </section>
+                <section>
+                  <h3>Duration</h3>
+                  <p>{spell.duration}</p>
+                </section>
+                <section>
+                  <h3>Casting Time</h3>
+                  <p>{spell.casting_time}</p>
+                </section>
+              </header>
+              <main>{mdTransform(spell.description)}</main>
+              <footer>
+                <span>{spell.school}</span>
+                <span>{spell.classes}</span>
+              </footer>
+            </section>
+          );
+        })}
+        <ControlPanel
+          cardSize={cardSize}
+          setCardSize={setCardSize}
+          setCardSizeCssClass={setCardSizeCssClass}
+          classFilter={classFilter}
+          setClassFilter={setClassFilter}
+          levelFilter={levelFilter}
+          setLevelFilter={setLevelFilter}
+        />
+      </article>
     </>
   );
 };
