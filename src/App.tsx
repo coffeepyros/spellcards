@@ -1,54 +1,57 @@
-// DATA
 import type { Spelldata, CardSizeOptions, FilterLevel, Page } from "./types";
-import { data } from "./data"; // SRD spells
 import { useState } from "react";
-import ControlPanel from "./components/ControlPanel";
 import Markdown from "markdown-to-jsx";
+import ControlPanel from "./components/ControlPanel";
+import { data } from "./data"; // SRD spells
+import { sortFirstByLevelThenName } from "./utils";
 import "./App.css";
 
 const App = () => {
   const [cardSize, setCardSize] = useState<string>("max"); // "max" | "magic" | "tarot"
   const [cardSizeOptions, setCardSizeOptions] = useState<CardSizeOptions>({
-    cardSizePageCss: "page-maxsize",
-    cardSizeCardCss: "card-maxsize",
+    pageCss: "page-maxsize",
+    cardCss: "card-maxsize",
     cardsPerPage: 9,
   });
   const [classFilter, setClassFilter] = useState<string>("wizard");
   const [levelFilter, setLevelFilter] = useState<FilterLevel>({
     min: 0,
-    max: 1,
+    max: 2,
   });
 
-  const filteredSpells: Spelldata[] = data
-    .filter(
-      (spell) =>
-        spell.classes != null &&
-        spell.classes.toLocaleLowerCase().includes(classFilter) &&
-        spell.level != null &&
-        spell.level >= levelFilter.min &&
-        spell.level <= levelFilter.max,
-    )
-    .sort((a, b) => {
-      if (
-        a.level == null ||
-        b.level == null ||
-        a.spell_name == null ||
-        b.spell_name == null
-      )
-        return 0;
-      if (a.level < b.level) return -1;
-      if (a.level > b.level) return 1;
-      if (a.spell_name < b.spell_name) return -1;
-      if (a.spell_name > b.spell_name) return 1;
-      return 0;
-    });
-
-  // Check if a spellcard has more than 1800 characters. If yes, it needs to have a second card to display the full text.
-  // That also shifts all the other cards one position further.
-  const bigTextCards: Spelldata[] = filteredSpells.filter(
-    (card) => card.description && card.description.length > 1500,
+  const filteredSpells: Spelldata[] = data.filter(
+    (spell) =>
+      spell.classes != null &&
+      spell.classes.toLocaleLowerCase().includes(classFilter) &&
+      spell.level != null &&
+      spell.level >= levelFilter.min &&
+      spell.level <= levelFilter.max,
   );
+
+  // Check if a spellcard has more than 1500 characters. If yes, it needs to have a second card to display the full text.
+  // That also shifts all the other cards one position further.
+  const bigTextCards: Spelldata[] = filteredSpells.filter((card) => {
+    if (card.description && card.description.length > 1500) {
+      const secondCard: Spelldata = { ...card };
+      secondCard.spell_name += " (2/2)";
+      if (secondCard.description) {
+        const descriptionLines: string[] = secondCard.description.split("\n");
+        const halfOfLines: number = Math.ceil(descriptionLines.length / 2);
+        secondCard.halfDescription = descriptionLines
+          .slice(halfOfLines)
+          .join("\n");
+        card.halfDescription = descriptionLines
+          .slice(0, halfOfLines)
+          .join("\n");
+      }
+      filteredSpells.push(secondCard);
+      return true;
+    }
+  });
   console.log(bigTextCards);
+
+  // Sort spell cards first by Spell Level, then by Spell Name
+  filteredSpells.sort(sortFirstByLevelThenName);
 
   // Constructing Page Info (number of pages, which spells to display on which page)
   const pageInfo: Page[] = [];
@@ -65,10 +68,11 @@ const App = () => {
 
   return (
     <>
-      {cardSize}
-      {numOfPages}
       {pageInfo.map((page) => (
-        <article className={"page" + ` ${cardSizeOptions.cardSizePageCss}`}>
+        <article
+          key={page.page}
+          className={"page" + ` ${cardSizeOptions.pageCss}`}
+        >
           {filteredSpells
             .slice(page.spellStart, page.spellEnd + 1)
             .map((spell) => {
@@ -79,7 +83,8 @@ const App = () => {
 
               return (
                 <section
-                  className={"card" + ` ${cardSizeOptions.cardSizeCardCss}`}
+                  key={spell.spell_name}
+                  className={"card" + ` ${cardSizeOptions.cardCss}`}
                 >
                   {spell.concentration && (
                     <span className="concentration">C</span>
@@ -97,6 +102,11 @@ const App = () => {
                     }
                   >
                     {spell.spell_name}
+                    {/* If description was split (= too long text, needed extra card, then display "1/2" next to spell name */}
+                    {/* I tried to add it directly*/}
+                    {spell.halfDescription && !spell.spell_name?.includes("2/2")
+                      ? " (1/2)"
+                      : null}
                   </h2>
                   <span className="level">{spell.level}</span>
                   <header>
@@ -119,12 +129,21 @@ const App = () => {
                   </header>
                   <main
                     className={
-                      spell.description && spell.description.length > 1000
+                      !spell.halfDescription && // if card is already split into two cards because of long text, don't decrease font size
+                      spell.description &&
+                      // description lengths are eye-balled for the moment
+                      ((cardSize == "magic" &&
+                        spell.description.length > 1100) ||
+                        (cardSize == "max" && spell.description.length > 1200))
                         ? "fontSmall"
                         : ""
                     }
                   >
-                    <Markdown>{spell.description}</Markdown>
+                    <Markdown>
+                      {spell.halfDescription
+                        ? spell.halfDescription
+                        : spell.description}
+                    </Markdown>
                   </main>
                   <footer>
                     <span>{spell.school}</span>

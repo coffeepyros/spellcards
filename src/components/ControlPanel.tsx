@@ -32,24 +32,24 @@ const ControlPanel = ({
       case "max":
         setCardSize("max");
         setCardSizeOptions({
-          cardSizePageCss: "page-maxsize",
-          cardSizeCardCss: "card-maxsize",
+          pageCss: "page-maxsize",
+          cardCss: "card-maxsize",
           cardsPerPage: 9,
         });
         break;
       case "magic":
         setCardSize("magic");
         setCardSizeOptions({
-          cardSizePageCss: "page-magic",
-          cardSizeCardCss: "card-magic",
+          pageCss: "page-magic",
+          cardCss: "card-magic",
           cardsPerPage: 9,
         });
         break;
       case "tarot":
         setCardSize("tarot");
         setCardSizeOptions({
-          cardSizePageCss: "page-tarot",
-          cardSizeCardCss: "card-tarot",
+          pageCss: "page-tarot",
+          cardCss: "card-tarot",
           cardsPerPage: 4,
         });
         break;

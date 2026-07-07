@@ -8,6 +8,7 @@ export type Spelldata = {
   casting_time: string | null;
   ritual: boolean | null;
   description: string | null;
+  halfDescription?: string | null;
   material: string | null;
   school: string | null;
   classes: string | null;
@@ -20,8 +21,8 @@ export type Spelldata = {
 };
 
 export type CardSizeOptions = {
-  cardSizePageCss: string;
-  cardSizeCardCss: string;
+  pageCss: string;
+  cardCss: string;
   cardsPerPage: number;
 };
 

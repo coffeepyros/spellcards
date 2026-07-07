@@ -16,9 +16,8 @@ for (let i = 0; i < 5; i++) {
   const spellDetails: string[] = spells[i].trim().split("\r\n\r\n");
   // console.log(spellDetails);
 
-  let level,
-    school,
-    classes: string = "";
+  let level, school, classes: string;
+
   if (spellDetails[1].includes("Cantrip")) {
     [school, level, classes] = spellDetails[1]
       .replaceAll("*", "")
