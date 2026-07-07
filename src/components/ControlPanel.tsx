@@ -1,12 +1,12 @@
 // DATA
-import type { CardSizeCss, FilterLevel } from "../types";
+import type { CardSizeOptions, FilterLevel } from "../types";
 import { charClasses } from "../customData";
 import "./ControlPanel.scss";
 
 type Props = {
   cardSize: string;
   setCardSize: (state: string) => void;
-  setCardSizeCssClass: (state: CardSizeCss) => void;
+  setCardSizeOptions: (state: CardSizeOptions) => void;
   classFilter: string;
   setClassFilter: (state: string) => void;
   levelFilter: FilterLevel;
@@ -15,7 +15,7 @@ type Props = {
 
 const ControlPanel = ({
   setCardSize,
-  setCardSizeCssClass,
+  setCardSizeOptions,
   classFilter,
   setClassFilter,
   levelFilter,
@@ -31,7 +31,7 @@ const ControlPanel = ({
     switch (changedSize) {
       case "max":
         setCardSize("max");
-        setCardSizeCssClass({
+        setCardSizeOptions({
           cardSizePageCss: "page-maxsize",
           cardSizeCardCss: "card-maxsize",
           cardsPerPage: 9,
@@ -39,7 +39,7 @@ const ControlPanel = ({
         break;
       case "magic":
         setCardSize("magic");
-        setCardSizeCssClass({
+        setCardSizeOptions({
           cardSizePageCss: "page-magic",
           cardSizeCardCss: "card-magic",
           cardsPerPage: 9,
@@ -47,7 +47,7 @@ const ControlPanel = ({
         break;
       case "tarot":
         setCardSize("tarot");
-        setCardSizeCssClass({
+        setCardSizeOptions({
           cardSizePageCss: "page-tarot",
           cardSizeCardCss: "card-tarot",
           cardsPerPage: 4,

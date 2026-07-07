@@ -40,7 +40,7 @@ body {
 .card {
     border: 1px solid #ccc;
     border-radius: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 0.25rem 0.5rem;
     position: relative;
     display: grid;
     grid-template-rows: auto auto 1fr auto;
@@ -125,11 +125,24 @@ header p {
 }
 main {
     margin-top: 0.16em;
-    font-size: 8.33pt;
+    font-size: 9pt;
     line-height: 1.05;
+    text-align: justify;
+    hyphens: auto;
+}
+/* For cards with a lot of text, we decrease the font size... sad face. */
+main.fontSmall {
+    font-size: 8pt;
 }
 .card-tarot main {
     font-size: 9pt;
+}
+main ul {
+    padding-left: 1em;
+}
+main p,
+main ul {
+    margin-top: 0.25em;
 }
 main br {
     margin-bottom: 0.2em;

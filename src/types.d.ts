@@ -19,10 +19,12 @@ export type Spelldata = {
   custom_data?: boolean | null;
 };
 
-export type CardSizeCss = {
+export type CardSizeOptions = {
   cardSizePageCss: string;
   cardSizeCardCss: string;
   cardsPerPage: number;
 };
 
 export type FilterLevel = { min: number; max: number };
+
+export type Page = { page: number; spellStart: number; spellEnd: number };

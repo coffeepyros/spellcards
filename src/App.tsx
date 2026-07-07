@@ -1,15 +1,14 @@
 // DATA
-import type { Spelldata, CardSizeCss, FilterLevel } from "./types";
-import { data as srdData } from "./data"; // SRD spells
-import { customData } from "./customData"; // custom spells
+import type { Spelldata, CardSizeOptions, FilterLevel, Page } from "./types";
+import { data } from "./data"; // SRD spells
 import { useState } from "react";
 import ControlPanel from "./components/ControlPanel";
-import { mdTransform } from "./utils"; // my own markdown -> html
+import Markdown from "markdown-to-jsx";
 import "./App.css";
 
 const App = () => {
   const [cardSize, setCardSize] = useState<string>("max"); // "max" | "magic" | "tarot"
-  const [cardSizeCssClass, setCardSizeCssClass] = useState<CardSizeCss>({
+  const [cardSizeOptions, setCardSizeOptions] = useState<CardSizeOptions>({
     cardSizePageCss: "page-maxsize",
     cardSizeCardCss: "card-maxsize",
     cardsPerPage: 9,
@@ -19,7 +18,6 @@ const App = () => {
     min: 0,
     max: 1,
   });
-  const data: Spelldata[] = srdData.concat(customData); // all spells
 
   const filteredSpells: Spelldata[] = data
     .filter(
@@ -45,77 +43,107 @@ const App = () => {
       return 0;
     });
 
-  const numOfPages: number = Math.ceil(
-    filteredSpells.length / cardSizeCssClass.cardsPerPage,
+  // Check if a spellcard has more than 1800 characters. If yes, it needs to have a second card to display the full text.
+  // That also shifts all the other cards one position further.
+  const bigTextCards: Spelldata[] = filteredSpells.filter(
+    (card) => card.description && card.description.length > 1500,
   );
+  console.log(bigTextCards);
+
+  // Constructing Page Info (number of pages, which spells to display on which page)
+  const pageInfo: Page[] = [];
+  const numOfPages: number = Math.ceil(
+    filteredSpells.length / cardSizeOptions.cardsPerPage,
+  );
+  for (let i = 0; i < numOfPages; i++) {
+    pageInfo.push({
+      page: i,
+      spellStart: i * cardSizeOptions.cardsPerPage,
+      spellEnd: (i + 1) * cardSizeOptions.cardsPerPage - 1,
+    });
+  }
 
   return (
     <>
       {cardSize}
       {numOfPages}
-      <article className={"page" + ` ${cardSizeCssClass.cardSizePageCss}`}>
-        {filteredSpells.map((spell) => {
-          const ritualOnly: boolean | null =
-            !spell.concentration && spell.ritual;
-          const ritualAndConcentration: boolean | null =
-            spell.concentration && spell.ritual;
+      {pageInfo.map((page) => (
+        <article className={"page" + ` ${cardSizeOptions.cardSizePageCss}`}>
+          {filteredSpells
+            .slice(page.spellStart, page.spellEnd + 1)
+            .map((spell) => {
+              const ritualOnly: boolean | null =
+                !spell.concentration && spell.ritual;
+              const ritualAndConcentration: boolean | null =
+                spell.concentration && spell.ritual;
 
-          return (
-            <section
-              className={"card" + ` ${cardSizeCssClass.cardSizeCardCss}`}
-            >
-              {spell.concentration && <span className="concentration">C</span>}
-              {ritualOnly && <span className="ritual">R</span>}
-              {ritualAndConcentration && (
-                <span className="ritual ritConc">R</span>
-              )}
-              <h2
-                className="name"
-                style={
-                  spell.spell_name && spell.spell_name.length > 24
-                    ? { transform: "scale(0.80) translateY(-25%)" }
-                    : {}
-                }
-              >
-                {spell.spell_name}
-              </h2>
-              <span className="level">{spell.level}</span>
-              <header>
-                <section>
-                  <h3>Range</h3>
-                  <p>{spell.range}</p>
+              return (
+                <section
+                  className={"card" + ` ${cardSizeOptions.cardSizeCardCss}`}
+                >
+                  {spell.concentration && (
+                    <span className="concentration">C</span>
+                  )}
+                  {ritualOnly && <span className="ritual">R</span>}
+                  {ritualAndConcentration && (
+                    <span className="ritual ritConc">R</span>
+                  )}
+                  <h2
+                    className="name"
+                    style={
+                      spell.spell_name && spell.spell_name.length > 24
+                        ? { transform: "scale(0.80) translateY(-25%)" }
+                        : {}
+                    }
+                  >
+                    {spell.spell_name}
+                  </h2>
+                  <span className="level">{spell.level}</span>
+                  <header>
+                    <section>
+                      <h3>Range</h3>
+                      <p>{spell.range}</p>
+                    </section>
+                    <section>
+                      <h3>Components</h3>
+                      <p>{spell.components}</p>
+                    </section>
+                    <section>
+                      <h3>Duration</h3>
+                      <p>{spell.duration}</p>
+                    </section>
+                    <section>
+                      <h3>Casting Time</h3>
+                      <p>{spell.casting_time}</p>
+                    </section>
+                  </header>
+                  <main
+                    className={
+                      spell.description && spell.description.length > 1000
+                        ? "fontSmall"
+                        : ""
+                    }
+                  >
+                    <Markdown>{spell.description}</Markdown>
+                  </main>
+                  <footer>
+                    <span>{spell.school}</span>
+                    <span>{spell.classes}</span>
+                  </footer>
                 </section>
-                <section>
-                  <h3>Components</h3>
-                  <p>{spell.components}</p>
-                </section>
-                <section>
-                  <h3>Duration</h3>
-                  <p>{spell.duration}</p>
-                </section>
-                <section>
-                  <h3>Casting Time</h3>
-                  <p>{spell.casting_time}</p>
-                </section>
-              </header>
-              <main>{mdTransform(spell.description)}</main>
-              <footer>
-                <span>{spell.school}</span>
-                <span>{spell.classes}</span>
-              </footer>
-            </section>
-          );
-        })}
-        <ControlPanel
-          cardSize={cardSize}
-          setCardSize={setCardSize}
-          setCardSizeCssClass={setCardSizeCssClass}
-          classFilter={classFilter}
-          setClassFilter={setClassFilter}
-          levelFilter={levelFilter}
-          setLevelFilter={setLevelFilter}
-        />
-      </article>
+              );
+            })}
+          <ControlPanel
+            cardSize={cardSize}
+            setCardSize={setCardSize}
+            setCardSizeOptions={setCardSizeOptions}
+            classFilter={classFilter}
+            setClassFilter={setClassFilter}
+            levelFilter={levelFilter}
+            setLevelFilter={setLevelFilter}
+          />
+        </article>
+      ))}
     </>
   );
 };
