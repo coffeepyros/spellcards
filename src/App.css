@@ -108,11 +108,13 @@ header {
     border-bottom: 0.25pt solid #ccc;
     padding-top: 0.25em;
     padding-bottom: 0.05em;
+    line-height: 1.05;
 }
 header h3 {
     /*font-family: "Imbue", serif;*/
     font-size: 7.5pt;
     text-transform: uppercase;
+    color: #333;
 }
 .card-tarot header h3 {
     font-size: 9pt;
@@ -150,10 +152,17 @@ main br {
 footer {
     font-weight: 700;
     display: flex;
+    gap: 0.16rem;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 .card-tarot footer {
     font-size: 9pt;
+}
+footer .material {
+    flex-basis: 100%;
+    text-align: center;
+    font-weight: 400;
 }
 /* SPECIAL CSS FOR PRINT / PDF GENERATION */
 @media print {

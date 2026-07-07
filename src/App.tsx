@@ -146,6 +146,11 @@ const App = () => {
                     </Markdown>
                   </main>
                   <footer>
+                    {spell.material ? (
+                      <span className="material">
+                        <em>{spell.material}</em>
+                      </span>
+                    ) : null}
                     <span>{spell.school}</span>
                     <span>{spell.classes}</span>
                   </footer>
