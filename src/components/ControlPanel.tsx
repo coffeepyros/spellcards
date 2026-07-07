@@ -124,6 +124,7 @@ const ControlPanel = ({
           Error! {levelFilter.min + " > " + levelFilter.max}
         </p>
       ) : null}
+      <button onClick={() => window.print()}>Print</button>
     </section>
   );
 };
