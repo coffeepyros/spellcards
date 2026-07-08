@@ -7,7 +7,7 @@ import { sortFirstByLevelThenName } from "./utils";
 import "./App.css";
 
 const App = () => {
-  const [cardSize, setCardSize] = useState<string>("max"); // "max" | "magic" | "tarot"
+  const [cardSize, setCardSize] = useState<string>(""); // "max" | "magic" | "tarot"
   const [cardSizeOptions, setCardSizeOptions] = useState<CardSizeOptions>({
     pageCss: "page-maxsize",
     cardCss: "card-maxsize",
@@ -68,6 +68,16 @@ const App = () => {
 
   return (
     <>
+      <ControlPanel
+        cardSize={cardSize}
+        setCardSize={setCardSize}
+        setCardSizeOptions={setCardSizeOptions}
+        classFilter={classFilter}
+        setClassFilter={setClassFilter}
+        levelFilter={levelFilter}
+        setLevelFilter={setLevelFilter}
+      />
+
       {pageInfo.map((page) => (
         <article
           key={page.page}
@@ -157,15 +167,6 @@ const App = () => {
                 </section>
               );
             })}
-          <ControlPanel
-            cardSize={cardSize}
-            setCardSize={setCardSize}
-            setCardSizeOptions={setCardSizeOptions}
-            classFilter={classFilter}
-            setClassFilter={setClassFilter}
-            levelFilter={levelFilter}
-            setLevelFilter={setLevelFilter}
-          />
         </article>
       ))}
     </>

@@ -14,6 +14,7 @@ type Props = {
 };
 
 const ControlPanel = ({
+  cardSize,
   setCardSize,
   setCardSizeOptions,
   classFilter,
@@ -66,10 +67,14 @@ const ControlPanel = ({
     const target = event.currentTarget as HTMLSelectElement;
     const selectedLevel: string = target.value;
     const minOrMax: string = target.name;
+    // if (
+    //   (minOrMax == "min" && Number(selectedLevel) <= levelFilter.max) ||
+    //   (minOrMax == "max" && Number(selectedLevel) >= levelFilter.min)
+    // )
     setLevelFilter({ ...levelFilter, [minOrMax]: Number(selectedLevel) });
   }
 
-  const levelOptions = ["", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+  const levelOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
     (num: number | string) => (
       <option key={num} value={num}>
         {num}
@@ -80,12 +85,15 @@ const ControlPanel = ({
   return (
     <section id="control-panel">
       <label htmlFor="card-size">Card Size</label>
-      <select id="card-size" onChange={changeCardSizeHandler}>
+      <select
+        id="card-size"
+        onChange={changeCardSizeHandler}
+        defaultValue={cardSize}
+      >
         <option value="max">Maximum Size (A4)</option>
         <option value="magic">Magic Card</option>
         <option value="tarot">Tarot Card</option>
       </select>
-
       <label htmlFor="filter-class">Class</label>
       <select
         id="filter-class"
@@ -93,15 +101,12 @@ const ControlPanel = ({
         onChange={filterClassHandler}
       >
         {charClasses.map((charClass) => (
-          <option
-            key={"option-" + charClass}
-            value={charClass.toLocaleLowerCase()}
-          >
+          <option key={"option-" + charClass} value={charClass.toLowerCase()}>
             {charClass}
           </option>
         ))}
-      </select>
-
+      </select>{" "}
+      {classFilter}
       <label htmlFor="filter-level-start">Level</label>
       <select
         id="filter-level-start"
