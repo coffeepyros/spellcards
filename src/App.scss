@@ -109,18 +109,18 @@ header {
     padding-top: 0.25em;
     padding-bottom: 0.05em;
     line-height: 1.05;
-}
-header h3 {
-    /*font-family: "Imbue", serif;*/
-    font-size: 7.5pt;
-    text-transform: uppercase;
-    color: #333;
+    h3 {
+        /*font-family: "Imbue", serif;*/
+        font-size: 7.5pt;
+        text-transform: uppercase;
+        color: #333;
+    }
+    p {
+        font-size: 10pt;
+    }
 }
 .card-tarot header h3 {
     font-size: 9pt;
-}
-header p {
-    font-size: 10pt;
 }
 .card-tarot header p {
     font-size: 12pt;
@@ -131,6 +131,15 @@ main {
     line-height: 1.05;
     text-align: justify;
     hyphens: auto;
+    ul {
+        padding-left: 1em;
+    }
+    p, ul {
+        margin-top: 0.25em;
+    }
+    br {
+        margin-bottom: 0.2em;
+    }
 }
 /* For cards with a lot of text, we decrease the font size... sad face. */
 main.fontSmall {
@@ -139,30 +148,32 @@ main.fontSmall {
 .card-tarot main {
     font-size: 9pt;
 }
-main ul {
-    padding-left: 1em;
-}
-main p,
-main ul {
-    margin-top: 0.25em;
-}
-main br {
-    margin-bottom: 0.2em;
-}
 footer {
     font-weight: 700;
     display: flex;
     gap: 0.16rem;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    padding-top: 0.1em;
+    border-top: 0.25pt solid #ccc;
+    span:last-child { /* which classes can cast the spell */
+        font-weight: 400;
+    }
+    .material {
+        font-size: 9pt;
+        flex-basis: 100%;
+        text-align: center;
+        font-weight: 400;
+        padding-bottom: 0.1em;
+        border-bottom: 0.25pt solid #ccc;
+    }
+    .fontSmall {
+        font-size: 7.5pt;
+    }
 }
 .card-tarot footer {
     font-size: 9pt;
-}
-footer .material {
-    flex-basis: 100%;
-    text-align: center;
-    font-weight: 400;
 }
 /* SPECIAL CSS FOR PRINT / PDF GENERATION */
 @media print {

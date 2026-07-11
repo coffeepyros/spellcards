@@ -4,10 +4,11 @@ import Markdown from "markdown-to-jsx";
 import ControlPanel from "./components/ControlPanel";
 import { data } from "./data"; // SRD spells
 import { sortFirstByLevelThenName } from "./utils";
-import "./App.css";
+import "./App.scss";
 
 const App = () => {
-  const [cardSize, setCardSize] = useState<string>(""); // "max" | "magic" | "tarot"
+  const [cardSize, setCardSize] = useState<string>("max"); // "max" | "magic" | "tarot"
+  const [lang, setLang] = useState<string>("en"); // "en" | "de"
   const [cardSizeOptions, setCardSizeOptions] = useState<CardSizeOptions>({
     pageCss: "page-maxsize",
     cardCss: "card-maxsize",
@@ -30,7 +31,8 @@ const App = () => {
 
   // Check if a spellcard has more than 1500 characters. If yes, it needs to have a second card to display the full text.
   // That also shifts all the other cards one position further.
-  const bigTextCards: Spelldata[] = filteredSpells.filter((card) => {
+  // const bigTextCards: Spelldata[] = filteredSpells.filter((card) => {
+  filteredSpells.forEach((card) => {
     if (card.description && card.description.length > 1500) {
       const secondCard: Spelldata = { ...card };
       secondCard.spell_name += " (2/2)";
@@ -45,10 +47,10 @@ const App = () => {
           .join("\n");
       }
       filteredSpells.push(secondCard);
-      return true;
+      // return true;
     }
   });
-  console.log(bigTextCards);
+  // console.log("Cards with too much text, split into two cards:", bigTextCards);
 
   // Sort spell cards first by Spell Level, then by Spell Name
   filteredSpells.sort(sortFirstByLevelThenName);
@@ -76,6 +78,8 @@ const App = () => {
         setClassFilter={setClassFilter}
         levelFilter={levelFilter}
         setLevelFilter={setLevelFilter}
+        lang={lang}
+        setLang={setLang}
       />
 
       {pageInfo.map((page) => (
@@ -162,7 +166,8 @@ const App = () => {
                       </span>
                     ) : null}
                     <span>{spell.school}</span>
-                    <span>{spell.classes}</span>
+                    {/* some spells can be cast by ALL classes. the list is too long to fit into one line, so decrease the font size in that case */}
+                    <span className={spell.classes && spell.classes.split(",").length > 8 ? "fontSmall" : ""}>{spell.classes}</span>
                   </footer>
                 </section>
               );

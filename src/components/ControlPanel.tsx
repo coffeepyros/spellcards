@@ -11,6 +11,8 @@ type Props = {
   setClassFilter: (state: string) => void;
   levelFilter: FilterLevel;
   setLevelFilter: (state: FilterLevel) => void;
+  lang: string;
+  setLang: (state: string) => void;
 };
 
 const ControlPanel = ({
@@ -21,6 +23,8 @@ const ControlPanel = ({
   setClassFilter,
   levelFilter,
   setLevelFilter,
+  lang,
+  setLang
 }: Props) => {
   // CONTROL PANEL
 
@@ -74,6 +78,13 @@ const ControlPanel = ({
     setLevelFilter({ ...levelFilter, [minOrMax]: Number(selectedLevel) });
   }
 
+  function languageHandler(event: React.ChangeEvent) {
+    const newLanguage: string = (event.currentTarget as HTMLSelectElement)
+      .value;
+    setLang(newLanguage);
+  }
+
+
   const levelOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
     (num: number | string) => (
       <option key={num} value={num}>
@@ -84,6 +95,12 @@ const ControlPanel = ({
 
   return (
     <section id="control-panel">
+      <label htmlFor="lang">Language</label>
+      <select name="lang" id="lang" onChange={languageHandler} defaultValue={lang}>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>
+
       <label htmlFor="card-size">Card Size</label>
       <select
         id="card-size"
