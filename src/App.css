@@ -136,6 +136,9 @@ main {
 main.fontSmall {
     font-size: 8pt;
 }
+.card-magic main.fontSmall {
+    font-size: 7.5pt;
+}
 .card-tarot main {
     font-size: 9pt;
 }

@@ -143,7 +143,7 @@ const App = () => {
                       spell.description &&
                       // description lengths are eye-balled for the moment
                       ((cardSize == "magic" &&
-                        spell.description.length > 1100) ||
+                        spell.description.length > 1050) ||
                         (cardSize == "max" && spell.description.length > 1200))
                         ? "fontSmall"
                         : ""
@@ -162,7 +162,8 @@ const App = () => {
                       </span>
                     ) : null}
                     <span>{spell.school}</span>
-                    <span>{spell.classes}</span>
+                    {/* All classes in a line is too long for the card, so we shorten it to "All Classes" */}
+                    <span>{spell.classes && spell.classes.split(",").length >= 9 ? "All Magic Classes" : spell.classes}</span>
                   </footer>
                 </section>
               );

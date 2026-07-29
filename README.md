@@ -9,5 +9,5 @@ Displays cards with spell info directly in print sizes. Browser is only for "pre
  - [x] research other ways of creating pdfs -> window.print() is the easiest
  - [x] now that the practise project is getting larget, switch over from vanilla javascript with custom DOM-based render function to React (old code is still in main.ts)
  - [x] move control panel to external component
- - [ ] display the cards again
+ - [x] display the cards again
  - [ ] create components for Page + Card and probably move over to React Context instead of prop drilling
